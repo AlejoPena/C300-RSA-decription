@@ -1,0 +1,37 @@
+holaesperoque estavezestemejor
+caradeyotambienescribosinespacios buenounosolo
+vrixA tatatatata
+YAyayayayaya lalalalala
+CASI poopopopopoooo
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <errno.h>
+#include <string.h>
+#include <netdb.h>
+#include <sys/types.h>
+#include <netinet/in.h>
+#include <sys/socket.h>
+fd_set master;    // master file descriptor list
+    fd_set read_fds;  // temp file descriptor list for select()
+    int fdmax;        // maximum file descriptor number
+    int listener;     // listening socket descriptor
+    int newfd;        // newly accept()ed socket descriptor
+    struct sockaddr_storage remoteaddr; // client address socklen_t addrlen;
+
+    char buf[256];    // buffer for client data    
+    int nbytes;
+    char remoteIP[INET6_ADDRSTRLEN];
+    int yes=1;        // for setsockopt() SO_REUSEADDR, below
+    int i, j, rv;
+    struct addrinfo hints, *ai, *p;
+    FD_ZERO(&master);    // clear the master and temp sets
+    FD_ZERO(&read_fds);
+    // get us a socket and bind it
+    memset(&hints, 0, sizeof hints);
+    hints.ai_family = AF_UNSPEC;
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_flags = AI_PASSIVE;
+    if ((rv = getaddrinfo(NULL, PORT, &hints, &ai)) != 0) {
+        fprintf(stderr, "selectserver: %s\n", gai_strerror(rv));
+        exit(1);
